@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossas Receitas | Padaria Dev</title>
+    <style>
+        /* ==========================================
+           Estilos Gerais e Acessibilidade
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Link de atalho para leitores de tela */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #8c4a27;
+            color: #ffffff;
+            padding: 8px;
+            z-index: 100;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        body {
+            background-image: url('./murilo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #1c130d; 
+            line-height: 1.6;
+        }
+
+
+
+        /* Destaque visual ao navegar com a tecla TAB (Acessibilidade) */
+        a:focus-visible, button:focus-visible, article:focus-visible {
+            outline: 3px solid #ffcc00;
+            outline-offset: 3px;
+        }
+
+        /* ==========================================
+           Cabeçalho e Navegação Conectada
+           ========================================== */
+        header {
+            background-color: rgba(140, 74, 39, 0.95);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-left: 1.2rem;
+            font-weight: 600;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover, nav a[aria-current="page"] {
+            background-color: rgba(255, 255, 255, 0.2);
+            text-decoration: underline;
+        }
+
+        .btn-logout {
+            background-color: #a83232;
+            color: white !important;
+        }
+
+        .btn-logout:hover {
+            background-color: #822222 !important;
+        }
+
+        /* ==========================================
+           Container Principal
+           ========================================== */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            background-color: #ffffff; /* Fundo opaco para legibilidade */
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
+
+        .page-title h2 {
+            font-size: 2.2rem;
+            color: #72391b;
+        }
+
+        /* ==========================================
+           Grid e Cards de Receitas
+           ========================================== */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .recipe-card {
+            background: #ffffff; /* Fundo 100% branco para não vazar a imagem de fundo */
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid #8c4a27;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.4);
+        }
+
+        .recipe-header {
+            background-color: #b85418;
+            color: #ffffff;
+            padding: 1.2rem;
+        }
+
+        .recipe-header h3 {
+            font-size: 1.4rem;
+        }
+
+        .recipe-info {
+            background-color: #f7ede2;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #8c4a27;
+            color: #4a2d18;
+        }
+
+        .recipe-body {
+            background-color: #ffffff; /* Garante que o texto fique legível sobre a imagem */
+            padding: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .recipe-body h4 {
+            color: #72391b;
+            margin: 1.2rem 0 0.5rem 0;
+            border-bottom: 2px solid #e0d6cb;
+            padding-bottom: 0.2rem;
+            font-size: 1.1rem;
+        }
+
+        .recipe-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .recipe-body ul, 
+        .recipe-body ol {
+            padding-left: 1.4rem;
+            font-size: 1rem;
+        }
+
+        .recipe-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* ==========================================
+           Rodapé
+           ========================================== */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: rgba(44, 33, 24, 0.95);
+            color: #ffffff;
+            margin-top: 3rem;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Link para pular direto para o conteúdo (Acessibilidade) -->
+    <a href="#conteudo-principal" class="skip-link">Ir para o conteúdo principal</a>
+
+    <!-- Cabeçalho com Navegação do Projeto -->
+    <header role="banner">
+        <h1>🍞 Padaria Dev</h1>
+        <nav aria-label="Navegação principal">
+            <a href="login.html" class="btn-logout" aria-label="Sair da conta e ir para o Login">🔒 Sair</a>
+            <a href="index.html" title="Página Inicial">Home</a>
+            <a href="receitas.html" aria-current="page" title="Página de Receitas">Receitas</a>
+        </nav>
+    </header>
+
+    <!-- Conteúdo Principal com ID para Acessibilidade -->
+    <main id="conteudo-principal" class="container" tabindex="-1">
+        <section class="page-title">
+            <h2>Especiais de Padaria</h2>
+            <p>Aprenda a fazer Baguete, Cacetinho e Brioche com nossas receitas detalhadas.</p>
+        </section>
+
+        <div class="recipes-grid">
+
+            <!-- Receita 1: Baguete -->
+            <article class="recipe-card" tabindex="0" aria-label="Receita de Baguete Tradicional">
+                <header class="recipe-header">
+                    <h3>🥖 Baguete Tradicional</h3>
+                </header>
+                <div class="recipe-info">
+                    <span>⏱️ Tempo: 3h 00min</span>
+                    <span>🥖 Rendimento: 3 unidades</span>
+                </div>
+                <div class="recipe-body">
+                    <h4>Ingredientes:</h4>
+                    <ul>
+                        <li>500g de farinha de trigo de alta proteína</li>
+                        <li>350ml de água bem gelada</li>
+                        <li>7g de fermento biológico seco</li>
+                        <li>10g de sal</li>
+                    </ul>
+
+                    <h4>Modo de Preparo:</h4>
+                    <ol>
+                        <li>Misture a farinha e a água até incorporar e deixe descansar por 30min (Autólise).</li>
+                        <li>Adicione o fermento e o sal. Sove bem até atingir ponto de véu.</li>
+                        <li>Deixe a massa fermentar por 1h30m, dobrando-a na metade do tempo.</li>
+                        <li>Divida em 3 partes, modele em formato cilíndrico e deixe crescer por mais 45min.</li>
+                        <li>Faça os cortes diagonais no topo e asse em forno a 230°C com vapor por 25 minutos.</li>
+                    </ol>
+                </div>
+            </article>
+
+            <!-- Receita 2: Cacetinho -->
+            <article class="recipe-card" tabindex="0" aria-label="Receita de Cacetinho Pão Francês">
+                <header class="recipe-header">
+                    <h3>🥖 Cacetinho (Pão Francês)</h3>
+                </header>
+                <div class="recipe-info">
+                    <span>⏱️ Tempo: 2h 00min</span>
+                    <span>🍞 Rendimento: 10 pães</span>
+                </div>
+                <div class="recipe-body">
+                    <h4>Ingredientes:</h4>
+                    <ul>
+                        <li>500g de farinha de trigo</li>
+                        <li>280ml de água gelada</li>
+                        <li>10g de fermento biológico seco</li>
+                        <li>10g de sal</li>
+                        <li>5g de açúcar</li>
+                        <li>15g de margarina ou banha</li>
+                    </ul>
+
+                    <h4>Modo de Preparo:</h4>
+                    <ol>
+                        <li>Misture a farinha, sal, açúcar e fermento.</li>
+                        <li>Adicione a margarina e vá colocando a água gelada aos poucos enquanto sova.</li>
+                        <li>Sove intensamente até a massa ficar totalmente lisa e elástica.</li>
+                        <li>Divida em porções de 80g, abra com o rolo e enrole bem firme.</li>
+                        <li>Deixe crescer por 1 hora, faça um corte longitudinal no topo e asse a 220°C por 20 minutos com vapor no forno.</li>
+                    </ol>
+                </div>
+            </article>
+
+            <!-- Receita 3: Brioche -->
+            <article class="recipe-card" tabindex="0" aria-label="Receita de Brioche Francês">
+                <header class="recipe-header">
+                    <h3>🍞 Brioche Francês</h3>
+                </header>
+                <div class="recipe-info">
+                    <span>⏱️ Tempo: 4h 00min</span>
+                    <span>🧈 Rendimento: 1 pão grande</span>
+                </div>
+                <div class="recipe-body">
+                    <h4>Ingredientes:</h4>
+                    <ul>
+                        <li>500g de farinha de trigo</li>
+                        <li>10g de fermento biológico seco</li>
+                        <li>60g de açúcar</li>
+                        <li>10g de sal</li>
+                        <li>4 ovos médios</li>
+                        <li>100ml de leite morno</li>
+                        <li>200g de manteiga sem sal em ponto de pomada</li>
+                        <li>1 gema para pincelar</li>
+                    </ul>
+
+                    <h4>Modo de Preparo:</h4>
+                    <ol>
+                        <li>Misture farinha, açúcar, sal, fermento, leite e ovos. Sove até formar uma massa homogênea.</li>
+                        <li>Adicione a manteiga aos poucos, colher por colher, sem parar de sovar até incorporar totalmente.</li>
+                        <li>Deixe a massa descansar na geladeira por 2 horas para firmar a manteiga.</li>
+                        <li>Modele no formato desejado, coloque na fôrma e deixe crescer até dobrar de tamanho.</li>
+                        <li>Pincele com a gema de ovo e asse a 180°C por cerca de 30 a 35 minutos até dourar.</li>
+                    </ol>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer role="contentinfo">
+        <p>&copy; 2026 Padaria Dev - Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+
