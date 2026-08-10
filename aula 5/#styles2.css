@@ -1,4 +1,4 @@
-
+/* --- CATEGORIAS & CARDS --- */
 .categorias {
     display: flex;
     justify-content: center;
@@ -33,7 +33,6 @@
     z-index: 1;
 }
 
-
 .card::after {
     content: '';
     position: absolute;
@@ -50,23 +49,29 @@
     z-index: 3;
 }
 
-.grupo-dicas{
+/* --- SEÇÃO DE DICAS --- */
+.grupo-dicas {
     display: flex;
     justify-content: center;
     margin-top: 100px;
 }
-.dicas-le h1{
+
+.dicas-le h1 {
     font-size: 41px;
     font-weight: bold;
-
-
-}
-.dicas-le p{
-    font-size: ;
 }
 
-.dicas-ld img{
-    width: 684px;
-    height: 800px;
+.dicas-le p {
+    font-size: 16px; /* Defina o tamanho do texto aqui (ex: 16px) */
+    line-height: 1.5;
+    color: #555555;
+}
+
+.dicas-ld img {
+    width: 100%;
+    max-width: 684px;
+    height: auto;
+    max-height: 800px;
+    object-fit: cover;
     border-radius: 20px;
 }

@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Petshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -21,6 +23,7 @@
             color: #333333;
         }
 
+        /* --- HEADER / CABEÇALHO --- */
         header {
             width: 100%;
             background-color: #000000;
@@ -32,17 +35,23 @@
         }
 
         .perfil {
-            width: 40px;
-            height: 40px;
-            background-color: #555;
+            width: 45px;
+            height: 45px;
+            background-image: url('./imagens/download (1).jpg');
+            background-size: cover;
+            background-position: center;
             border-radius: 50%;
+            border: 2px solid #ffffff;
+            overflow: hidden;
         }
 
-        .logo {
-            font-style: italic;
-            font-weight: bold;
+        header .logo {
+            font-family: 'Caveat', cursive;
+            font-size: 30px;
+            font-style: normal;
         }
 
+        /* --- CONTEÚDO PRINCIPAL --- */
         main {
             width: 100%;
             max-width: 800px;
@@ -151,7 +160,7 @@
             background-position: center;
         }
 
-        /* --- SEÇÃO DE DICAS AJUSTADA --- */
+        /* --- SEÇÃO DE DICAS --- */
         .grupo-dicas {
             width: 100%;
             display: flex;
@@ -176,7 +185,7 @@
         }
 
         .dicas-le h1 {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
             line-height: 1.2;
             color: #000000;
@@ -200,27 +209,166 @@
         .dicas-ld {
             flex: 1;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
+            background-color: #f7f7f7;
+            border-radius: 30px;
+            padding: 20px;
         }
 
         .dicas-ld img {
             width: 100%;
-            max-width: 500px;
-            height: 550px;
-            object-fit: cover;
-            border-radius: 30px;
+            max-width: 450px;
+            height: auto;
+            object-fit: contain;
         }
 
-        /* Responsividade para telas menores */
+        /* --- RODAPÉ / FOOTER (Ajustado ao protótipo) --- */
+        footer.rodape-container {
+            background-color: #000000;
+            color: #ffffff;
+            width: 100%;
+            padding: 60px 0 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .newsletter-box {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .newsletter-box h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+
+        .form-newsletter {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-newsletter input[type="email"] {
+            background: transparent;
+            border: 1px solid #555555;
+            border-radius: 10px;
+            padding: 14px 20px;
+            color: #ffffff;
+            font-size: 15px;
+            width: 320px;
+            outline: none;
+        }
+
+        .form-newsletter input[type="email"]::placeholder {
+            color: #888888;
+        }
+
+        .form-newsletter button {
+            background-color: #EEA83B;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 40px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        .rodape-conteudo {
+            width: 100%;
+            max-width: 1100px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: -1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-petshop {
+            font-family: 'Caveat', cursive;
+            font-size: 40px;
+            color: #ffffff;
+            line-height: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .nav-links a.ativo {
+            color: #EEA83B;
+        }
+
+        .linha-separadora {
+            width: 100%;
+            border: none;
+            border-top: 1px solid #ffffff;
+            margin-bottom: 35px;
+        }
+
+        .redes-sociais {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-social {
+            background-color: #EEA83B;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .btn-social svg {
+            width: 22px;
+            height: 22px;
+            fill: #000000;
+        }
+
+        /* --- RESPONSIVIDADE --- */
         @media (max-width: 850px) {
             .container-dicas {
                 flex-direction: column;
                 align-items: center;
             }
 
-            .dicas-ld img {
-                height: auto;
-                max-height: 400px;
+            .form-newsletter {
+                flex-direction: column;
+            }
+
+            .form-newsletter input[type="email"] {
+                width: 100%;
+            }
+
+            .rodape-conteudo {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
             }
         }
     </style>
@@ -229,17 +377,7 @@
 <body>
 
     <header>
-        <div class="perfil" style="
-            width:50px;
-            height:50px;
-            background-image:url('./imagens/download (1).jpg');
-            background-size:cover;
-            background-position:center;
-            border-radius:50%;
-            border:2px solid #ffffff;
-            overflow:hidden;
-        ">
-        </div>
+        <div class="perfil"></div>
         <p>Encontre tudo para o seu pet</p>
         <span class="logo">petshop</span>
     </header>
@@ -311,6 +449,43 @@
         </div>
     </section>
 
-</body>
+    <footer class="rodape-container">
+        
+        <div class="newsletter-box">
+            <h3>Assine nossa newsletter</h3>
+            <form class="form-newsletter" onsubmit="event.preventDefault();">
+                <input type="email" placeholder="E-mail" required>
+                <button type="submit">ASSINAR</button>
+            </form>
+        </div>
 
+        <div class="rodape-conteudo">
+            <div class="logo-petshop">petshop</div>
+            <nav class="nav-links">
+                <a href="#">Inicio</a>
+                <a href="#">Tours</a>
+                <a href="#">Hotéis</a>
+                <a href="#" class="ativo">Faqs</a>
+                <a href="#">Blog</a>
+                <a href="#">Contatos</a>
+            </nav>
+        </div>
+
+        <hr class="linha-separadora">
+
+        <div class="redes-sociais">
+            <a href="#" class="btn-social" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96A10 10 0 0 0 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
+            </a>
+            <a href="#" class="btn-social" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" class="btn-social" aria-label="Twitter">
+                <svg viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/></svg>
+            </a>
+        </div>
+
+    </footer>
+
+</body>
 </html>
