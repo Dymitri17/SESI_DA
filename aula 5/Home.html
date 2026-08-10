@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,9 +18,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: #333333;
         }
 
-    
         header {
             width: 100%;
             background-color: #000000;
@@ -42,11 +43,10 @@
             font-weight: bold;
         }
 
-         
         main {
             width: 100%;
             max-width: 800px;
-            padding: 40px 20px;
+            padding: 40px 20px 10px 20px;
             text-align: center;
         }
 
@@ -64,19 +64,18 @@
             outline: none;
         }
 
-    
+        /* --- CATEGORIAS --- */
         .categorias {
             display: flex;
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
         }
 
         .card {
             width: 140px;
             height: 170px;
-            background-color: #333;
             border-radius: 20px;
             overflow: hidden;
             position: relative;
@@ -87,15 +86,15 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 18px;
+            background-color: #333333;
         }
-
 
         .gatos { background-color: #5c5c5c; }
         .cachorros { background-color: #4a4a4a; }
         .aves { background-color: #6e6e6e; }
         .peixes { background-color: #2b2b2b; }
 
-    
+        /* --- BANNER MEMBRO --- */
         .banner-membro {
             background-color: #000000;
             width: 100%;
@@ -147,27 +146,100 @@
         .foto-membro {
             width: 220px;
             height: 140px;
-            background-color: #f0a500;
             border-radius: 20px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* --- SEÇÃO DE DICAS AJUSTADA --- */
+        .grupo-dicas {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .container-dicas {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .dicas-le {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .dicas-le h1 {
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 1.2;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        .item-dica {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555555;
+        }
+
+        .item-dica span {
+            font-weight: bold;
+            color: #000000;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .dicas-ld {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .dicas-ld img {
+            width: 100%;
+            max-width: 500px;
+            height: 550px;
+            object-fit: cover;
+            border-radius: 30px;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 850px) {
+            .container-dicas {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dicas-ld img {
+                height: auto;
+                max-height: 400px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <header>
-    <div class="card perfil"
-     style="
-        width:80px;
-        height:80px;
-        background-image:url('./imagens/download (1).jpg');
-        background-size:cover;
-        background-position:center;
-        border-radius:50%;
-        border:4px solid #000000;
-        overflow:hidden;
-     ">
-    <a href=""></a>
-</div>
+        <div class="perfil" style="
+            width:50px;
+            height:50px;
+            background-image:url('./imagens/download (1).jpg');
+            background-size:cover;
+            background-position:center;
+            border-radius:50%;
+            border:2px solid #ffffff;
+            overflow:hidden;
+        ">
+        </div>
         <p>Encontre tudo para o seu pet</p>
         <span class="logo">petshop</span>
     </header>
@@ -180,23 +252,15 @@
         <div class="categorias">
             <div class="card gatos" style="background-image: url('./imagens/gato.jpg'); background-size: cover; background-position: center;">
                 <p>Gatos</p>
-                <!-- <a href="">gatos</a> -->
-                <!-- <img src="imagens/gato.jpg" alt="gato"> -->
             </div>
             <div class="card cachorros" style="background-image: url('./imagens/cachorro.jpg'); background-size: cover; background-position: center;">
                 <p>Cachorros</p>
-                <!-- <a href="">cachorros</a> -->
-                <!-- <img src="imagens/cachorro.jpg" alt="cachorro"> -->
             </div>
             <div class="card aves" style="background-image: url('./imagens/ave.png'); background-size: cover; background-position: center;">
                 <p>Aves</p>
-                <!-- <a href="">aves</a> -->
-                <!-- <img src="imagens/ave.png" alt="aves"> -->
             </div>
             <div class="card peixes" style="background-image: url('./imagens/peixe.png'); background-size: cover; background-position: center;">
                 <p>Peixes</p>
-                <!-- <a href="">peixes</a> -->
-                <!-- <img src="imagens/peixe.png" alt="peixe"> -->
             </div>
         </div>
     </main>
@@ -208,13 +272,45 @@
                 <p>Ganhe um desconto</p>
                 <button class="botao-juntar">Juntar-se</button>
             </div>
-            <div class="foto-membro">
-            <div class="foto-membro" style="background-image: url('./imagens/gato_laranja.jpg'); background-size: cover; background-position: center;">
-                <a href=""></a>
-                <!-- <img src="imagens/gato_laranja.jpg" alt="gato"> -->
+            <div class="foto-membro" style="background-image: url('./imagens/gato_laranja.jpg');">
             </div>
         </div>
     </div>
 
+    <section class="grupo-dicas">
+        <div class="container-dicas">
+            
+            <div class="dicas-le">
+                <h1>Algumas boas dicas para cuidar do seu animal de estimação:</h1>
+                
+                <p class="item-dica">
+                    <span>Paciência e compreensão:</span>
+                    entenda que os animais de estimação têm suas personalidades. Seja paciente, especialmente durante o treinamento.
+                </p>
+
+                <p class="item-dica">
+                    <span>Eduque-se:</span>
+                    aprenda sobre a raça, os comportamentos e as necessidades de saúde específicas do seu animal de estimação.
+                </p>
+
+                <p class="item-dica">
+                    <span>Preparação para emergências:</span>
+                    familiarize-se com a localização da clínica veterinária de emergência mais próxima.
+                </p>
+
+                <p class="item-dica">
+                    <span>Reforço positivo:</span>
+                    aprenda técnicas de reforço positivo.
+                </p>
+            </div>
+
+            <div class="dicas-ld">
+                <img src="./imagens/pit_bull.jpg" alt="Cachorro Pit Bull">
+            </div>
+
+        </div>
+    </section>
+
 </body>
+
 </html>

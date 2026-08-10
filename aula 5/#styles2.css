@@ -49,3 +49,24 @@
     position: relative;
     z-index: 3;
 }
+
+.grupo-dicas{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+.dicas-le h1{
+    font-size: 41px;
+    font-weight: bold;
+
+
+}
+.dicas-le p{
+    font-size: ;
+}
+
+.dicas-ld img{
+    width: 684px;
+    height: 800px;
+    border-radius: 20px;
+}
