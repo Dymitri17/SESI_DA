@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Fascinante Origem do Pão - História e Cultura</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        headerBg: '#8d4a27',      /* Cor exata extraída da sua imagem */
+                        headerHover: '#a35730',   /* Tom um pouco mais claro para o hover */
+                        wheat: {
+                            50: '#faf7f2',
+                            100: '#f4ede1',
+                            200: '#e7d9c2',
+                            300: '#d7c09e',
+                            400: '#c5a378',
+                            500: '#b48a58',
+                            600: '#a37449',
+                            700: '#875d3c',
+                            800: '#6f4b34',
+                            900: '#5b3e2d',
+                        },
+                        amberCustom: '#d97706',
+                        earth: '#2c1e16',
+                        cream: '#fdfbf7'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Ajustes customizados e estados de foco */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#b48a58 0.75px, transparent 0.75px);
+            background-size: 16px 16px;
+        }
+    </style>
+</head>
+<body class="bg-cream text-earth font-sans antialiased selection:bg-wheat-300 selection:text-earth">
+
+    <!-- Header / Navegação Fixa com a cor personalizada -->
+    <header class="fixed top-0 left-0 w-full bg-headerBg text-white border-b border-headerHover/50 z-50 transition-all duration-300 shadow-md" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            
+            <!-- Logo / Título -->
+            <a href="#" class="flex items-center gap-2 sm:gap-3 group shrink-0">
+                <span class="text-2xl">🍞</span>
+                <span class="font-serif font-bold text-lg sm:text-2xl tracking-tight text-white group-hover:text-wheat-200 transition-colors">
+                    Origem do Pão
+                </span>
+            </a>
+
+            <!-- Menu Desktop -->
+            <nav class="hidden lg:flex items-center space-x-6 text-sm font-semibold text-white/90 mr-auto ml-6">
+                <a href="#introducao" class="hover:text-wheat-200 transition-colors">Introdução</a>
+                <a href="#pre-historia" class="hover:text-wheat-200 transition-colors">Pré-História</a>
+                <a href="#antigo-egito" class="hover:text-wheat-200 transition-colors">Antigo Egito</a>
+                <a href="#antiguidade-media" class="hover:text-wheat-200 transition-colors">Grécia, Roma & Idade Média</a>
+                <a href="#era-moderna" class="hover:text-wheat-200 transition-colors">Era Moderna</a>
+            </nav>
+
+            <!-- Ações Direita (Home e Sair) -->
+            <div class="hidden md:flex items-center space-x-3 shrink-0">
+                <!-- Home -->
+                <a href="../home.html" class="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-white bg-headerHover/60 hover:bg-headerHover rounded-lg transition-all border border-white/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Home
+                </a>
+
+                <!-- Sair -->
+                <a href="../index.html" class="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-earth bg-wheat-100 hover:bg-white rounded-lg shadow-sm transition-all">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Sair
+                </a>
+            </div>
+
+            <!-- Botão Menu Mobile -->
+            <button id="menu-btn" class="lg:hidden p-2 rounded-lg text-white hover:bg-headerHover focus:outline-none" aria-label="Abrir Menu">
+                <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-headerBg border-b border-headerHover px-4 pt-2 pb-6 space-y-3">
+            <a href="#introducao" class="mobile-link block py-2 text-base font-medium text-white hover:text-wheat-200">Introdução</a>
+            <a href="#pre-historia" class="mobile-link block py-2 text-base font-medium text-white hover:text-wheat-200">Pré-História</a>
+            <a href="#antigo-egito" class="mobile-link block py-2 text-base font-medium text-white hover:text-wheat-200">Antigo Egito</a>
+            <a href="#antiguidade-media" class="mobile-link block py-2 text-base font-medium text-white hover:text-wheat-200">Grécia, Roma & Idade Média</a>
+            <a href="#era-moderna" class="mobile-link block py-2 text-base font-medium text-white hover:text-wheat-200">Era Moderna</a>
+            
+            <div class="pt-3 border-t border-headerHover flex flex-col gap-2">
+                <a href="../SITE-BAGUETE/home.html" class="flex items-center justify-center gap-2 py-2.5 text-base font-bold text-white bg-headerHover rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Home
+                </a>
+                <a href="../SITE-BAGUETE/index.html" class="flex items-center justify-center gap-2 py-2.5 text-base font-bold text-earth bg-wheat-100 rounded-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Sair
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-wheat-100/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="inline-block px-4 py-1.5 mb-4 text-xs font-bold tracking-widest text-wheat-800 uppercase bg-wheat-200/60 rounded-full">
+                    História & Tradição Millenar
+                </span>
+                <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-earth tracking-tight leading-tight mb-6">
+                    A Fascinante Origem do Pão
+                </h1>
+                <p class="text-lg sm:text-xl text-earth/80 leading-relaxed font-normal">
+                    Descubra como a mistura simples de água e grãos moldou a história da humanidade há mais de 10 mil anos.
+                </p>
+            </div>
+
+            <!-- Placeholder Hero -->
+            <div class="rounded-2xl border-2 border-dashed border-wheat-400 bg-wheat-50 p-6 md:p-10 shadow-sm max-w-4xl mx-auto transition-all hover:border-amberCustom">
+                <div class="flex flex-col items-center justify-center text-center space-y-3">
+                    <div class="p-3 bg-wheat-200/50 rounded-full text-amberCustom">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <p class="text-sm uppercase tracking-wider text-wheat-700 font-bold">[ INSERIR IMAGEM AQUI ]</p>
+                    <p class="text-base text-earth font-medium">
+                        <strong>Foto em alta resolução de uma rústica mesa de madeira com pães artesanais rústicos recém-assados, farinha espalhada e feixes de trigo.</strong>
+                    </p>
+                    <p class="text-xs text-earth/60 font-mono bg-wheat-200/40 px-3 py-1 rounded">
+                        Onde buscar: Unsplash &bull; Termo de busca: "artisanal bread rustic background"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conteúdo Principal -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+
+        <!-- Seção 1: Introdução -->
+        <section id="introducao" class="scroll-mt-28">
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-6 space-y-4">
+                    <span class="text-amberCustom font-bold text-sm uppercase tracking-wider">Capítulo I</span>
+                    <h2 class="font-serif text-3xl font-bold text-earth">O Alimento Mais Antigo da Humanidade</h2>
+                    <p class="text-earth/80 leading-relaxed text-base sm:text-lg">
+                        O pão acompanha a trajetória humana há mais de 10 mil anos. Muito antes da escrita ou das grandes civilizações, a descoberta de misturar grãos moídos com água e assar essa massa transformou a nossa relação com a comida e viabilizou a fixação do ser humano na terra.
+                    </p>
+                </div>
+                <div class="md:col-span-6">
+                    <!-- Placeholder Imagem 1 -->
+                    <div class="rounded-xl border-2 border-dashed border-wheat-400 bg-wheat-50/80 p-6 shadow-sm transition-all hover:border-amberCustom h-full flex flex-col justify-center">
+                        <div class="text-center space-y-2">
+                            <span class="text-xs uppercase tracking-wider text-wheat-700 font-bold block">[ INSERIR IMAGEM AQUI ]</span>
+                            <p class="text-sm text-earth font-medium">
+                                <strong>Close em mãos humanas amassando uma massa de pão em uma bancada de madeira.</strong>
+                            </p>
+                            <p class="text-xs text-earth/60 font-mono bg-wheat-200/40 px-2 py-1 rounded inline-block">
+                                Onde buscar: Unsplash &bull; Termo: "kneading bread dough hands"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-wheat-200">
+
+        <!-- Seção 2: A Pré-História -->
+        <section id="pre-historia" class="scroll-mt-28">
+            <div class="space-y-8">
+                <div class="max-w-2xl">
+                    <span class="text-amberCustom font-bold text-sm uppercase tracking-wider">Capítulo II</span>
+                    <h2 class="font-serif text-3xl font-bold text-earth mb-4">A Pré-História e os Pães Primitivos</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-wheat-50 p-6 rounded-xl border border-wheat-200 space-y-3">
+                        <h3 class="font-serif font-bold text-xl text-wheat-800">Os Primeiros Registros</h3>
+                        <p class="text-earth/80 text-sm leading-relaxed">
+                            Evidências arqueológicas mostram que, bem antes da agricultura formal, povos coletores na Europa e no Oriente Médio já trituravam raízes e grãos silvestres para fazer uma papa cozida sobre pedras quentes.
+                        </p>
+                    </div>
+
+                    <div class="bg-wheat-50 p-6 rounded-xl border border-wheat-200 space-y-3">
+                        <h3 class="font-serif font-bold text-xl text-wheat-800">O Pão Ázimo</h3>
+                        <p class="text-earth/80 text-sm leading-relaxed">
+                            Com a Revolução Neolítica (cerca de 10.000 a.C.), o cultivo de cereais como trigo e cevada deu origem aos primeiros pães planos e sem fermento (<em>flatbreads</em>), que eram duros, duráveis e serviam de base energética para comunidades nômades e agrícolas.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Placeholder Imagem 2 -->
+                <div class="rounded-xl border-2 border-dashed border-wheat-400 bg-wheat-50/80 p-6 shadow-sm transition-all hover:border-amberCustom">
+                    <div class="text-center space-y-2">
+                        <span class="text-xs uppercase tracking-wider text-wheat-700 font-bold block">[ INSERIR IMAGEM AQUI ]</span>
+                        <p class="text-sm text-earth font-medium">
+                            <strong>Pães planos ou pão ázimo assando sobre pedras quentes ou em um forno de barro antigo.</strong>
+                        </p>
+                        <p class="text-xs text-earth/60 font-mono bg-wheat-200/40 px-2 py-1 rounded inline-block">
+                            Onde buscar: Pexels &bull; Termo: "flatbread baking stone oven"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-wheat-200">
+
+        <!-- Seção 3: Antigo Egito -->
+        <section id="antigo-egito" class="scroll-mt-28">
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-6 order-2 md:order-1">
+                    <!-- Placeholder Imagem 3 -->
+                    <div class="rounded-xl border-2 border-dashed border-wheat-400 bg-wheat-50/80 p-6 shadow-sm transition-all hover:border-amberCustom h-full flex flex-col justify-center">
+                        <div class="text-center space-y-2">
+                            <span class="text-xs uppercase tracking-wider text-wheat-700 font-bold block">[ INSERIR IMAGEM AQUI ]</span>
+                            <p class="text-sm text-earth font-medium">
+                                <strong>Ilustração ou foto com temática egípcia antiga relacionada à colheita de trigo ou fabricação de pão.</strong>
+                            </p>
+                            <p class="text-xs text-earth/60 font-mono bg-wheat-200/40 px-2 py-1 rounded inline-block">
+                                Onde buscar: Pixabay / Unsplash &bull; Termo: "ancient egyptian bread making history"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-6 order-1 md:order-2 space-y-4">
+                    <span class="text-amberCustom font-bold text-sm uppercase tracking-wider">Capítulo III</span>
+                    <h2 class="font-serif text-3xl font-bold text-earth">A Revolução do Fermento no Antigo Egito</h2>
+                    <p class="text-earth/80 leading-relaxed text-sm">
+                        O grande marco da panificação ocorreu por volta de 4.000 a.C. no Antigo Egito, transformando a textura e o significado cultural do pão.
+                    </p>
+                    <ul class="space-y-3 text-sm text-earth/80">
+                        <li class="flex items-start gap-2">
+                            <span class="text-amberCustom font-bold">✓</span>
+                            <span><strong>A descoberta casual:</strong> Uma massa de água e farinha foi esquecida ao ar livre e entrou em contato com leveduras do ambiente, fermentando e crescendo.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amberCustom font-bold">✓</span>
+                            <span><strong>Leveza e sabor:</strong> Ao assar a massa fermentada, os egípcios perceberam que o pão ficava incrivelmente macio, leve e saboroso.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amberCustom font-bold">✓</span>
+                            <span><strong>Valor social:</strong> No Egito, o pão era tão valioso que funcionava como moeda de troca, sendo usado para pagar salários de trabalhadores e operários.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-wheat-200">
+
+        <!-- Seção 4: Antiguidade Clássica à Idade Média -->
+        <section id="antiguidade-media" class="scroll-mt-28">
+            <div class="space-y-8">
+                <div class="max-w-2xl">
+                    <span class="text-amberCustom font-bold text-sm uppercase tracking-wider">Capítulo IV</span>
+                    <h2 class="font-serif text-3xl font-bold text-earth mb-4">Da Antiguidade Clássica à Idade Média</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="border-l-4 border-amberCustom pl-4 space-y-2">
+                        <h3 class="font-serif font-bold text-xl text-earth">Grécia e Roma</h3>
+                        <p class="text-earth/80 text-sm leading-relaxed">
+                            Os gregos transformaram a panificação em arte, criando dezenas de variedades. Em Roma, o pão ganhou apoio estatal: surgiram as primeiras padarias públicas e escolas de panificação, fundamentais para alimentar a população urbana e as tropas do Império.
+                        </p>
+                    </div>
+
+                    <div class="border-l-4 border-wheat-400 pl-4 space-y-2">
+                        <h3 class="font-serif font-bold text-xl text-earth">Idade Média</h3>
+                        <p class="text-earth/80 text-sm leading-relaxed">
+                            Com a queda do Império Romano, as grandes padarias desapareceram e a produção voltou a ser doméstica e rústica, associada aos mosteiros. O pão escuro (centeio/cevada) virou base dos camponeses, enquanto o pão branco era reservado à nobreza.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Placeholder Imagem 4 -->
+                <div class="rounded-xl border-2 border-dashed border-wheat-400 bg-wheat-50/80 p-6 shadow-sm transition-all hover:border-amberCustom">
+                    <div class="text-center space-y-2">
+                        <span class="text-xs uppercase tracking-wider text-wheat-700 font-bold block">[ INSERIR IMAGEM AQUI ]</span>
+                        <p class="text-sm text-earth font-medium">
+                            <strong>Padeiro medieval ou forno de pedra antigo em um ambiente rústico de pedra.</strong>
+                        </p>
+                        <p class="text-xs text-earth/60 font-mono bg-wheat-200/40 px-2 py-1 rounded inline-block">
+                            Onde buscar: Unsplash &bull; Termo: "medieval bakery oven stone"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-wheat-200">
+
+        <!-- Seção 5: Era Moderna e Industrialização -->
+        <section id="era-moderna" class="scroll-mt-28">
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-6 space-y-4">
+                    <span class="text-amberCustom font-bold text-sm uppercase tracking-wider">Capítulo V</span>
+                    <h2 class="font-serif text-3xl font-bold text-earth">A Era Moderna e a Industrialização</h2>
+                    
+                    <div class="space-y-4 text-sm text-earth/80">
+                        <div>
+                            <h3 class="font-bold text-earth text-base mb-1">A sofisticação francesa</h3>
+                            <p class="leading-relaxed">
+                                A partir do século XVII, a França destacou-se no aprimoramento de técnicas que culminaram, séculos mais tarde, na criação de ícones mundiais como a clássica baguete.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-earth text-base mb-1">A Industrialização</h3>
+                            <p class="leading-relaxed">
+                                No século XIX, a Revolução Industrial introduziu fornos modernos, moinhos a vapor e máquinas de amassar, permitindo a produção em larga escala e transformando o pão no produto acessível padronizado de hoje.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-6">
+                    <!-- Placeholder Imagem 5 -->
+                    <div class="rounded-xl border-2 border-dashed border-wheat-400 bg-wheat-50/80 p-6 shadow-sm transition-all hover:border-amberCustom h-full flex flex-col justify-center">
+                        <div class="text-center space-y-2">
+                            <span class="text-xs uppercase tracking-wider text-wheat-700 font-bold block">[ INSERIR IMAGEM AQUI ]</span>
+                            <p class="text-sm text-earth font-medium">
+                                <strong>Baguetes francesas frescas saindo de um cesto em uma padaria moderna ou rústica e elegante.</strong>
+                            </p>
+                            <p class="text-xs text-earth/60 font-mono bg-wheat-200/40 px-2 py-1 rounded inline-block">
+                                Onde buscar: Unsplash &bull; Termo: "french baguettes basket bakery"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="bg-earth text-wheat-100 py-12 border-t border-wheat-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="text-3xl">🌾</div>
+            <h3 class="font-serif text-2xl font-bold text-wheat-200">A Fascinante Origem do Pão</h3>
+            <p class="text-wheat-300 text-sm max-w-md mx-auto">
+                Uma homenagem ao alimento simples que uniu povos, construiu cidades e continua nutrindo a humanidade todos os dias com amor e tradição.
+            </p>
+            <div class="pt-6 border-t border-wheat-800/60 text-xs text-wheat-400">
+                &copy; 2026 - Conteúdo Educativo Institucional. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão Voltar ao Topo -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 p-3 bg-headerBg text-white rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:bg-headerHover hover:scale-110 focus:outline-none z-40 border border-white/20" aria-label="Voltar ao topo">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- JavaScript para Interatividade -->
+    <script>
+        // Menu Mobile Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Fechar menu mobile ao clicar em um link
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Botão Voltar ao Topo & Sombra do Header
+        const backToTopBtn = document.getElementById('back-to-top');
+        const header = document.getElementById('main-header');
+
+        window.addEventListener('scroll', () => {
+            // Sombra do header
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-lg');
+            } else {
+                header.classList.remove('shadow-lg');
+            }
+
+            // Exibir/Ocultar botão Voltar ao Topo
+            if (window.scrollY > 400) {
+                backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+            }
+        });
+
+        // Ação do Botão Voltar ao Topo
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
