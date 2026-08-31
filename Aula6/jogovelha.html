@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo da Velha — Estrela & Lua</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night: #0B1026;
+    --night-2: #131B3A;
+    --line: #2A3363;
+    --ink: #EDEDF0;
+    --ink-dim: #9AA3C7;
+    --gold: #F2C14E;
+    --blue: #7EC8E3;
+    --gold-glow: rgba(242,193,78,.55);
+    --blue-glow: rgba(126,200,227,.55);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+
+  body{
+    min-height:100vh;
+    background: radial-gradient(circle at 20% 10%, #161f45 0%, var(--night) 45%, #070a1a 100%);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 18px;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  #stars{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+  }
+  .star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:#fff;
+    border-radius:50%;
+    opacity:.4;
+    animation:twinkle 3.5s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{opacity:.15; transform:scale(1);}
+    50%{opacity:.9; transform:scale(1.6);}
+  }
+
+  .app{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:420px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:22px;
+  }
+
+  header{
+    text-align:center;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(28px, 6vw, 36px);
+    margin:0 0 6px 0;
+    letter-spacing:.2px;
+    background:linear-gradient(90deg, var(--gold), var(--blue));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .subtitle{
+    margin:0;
+    color:var(--ink-dim);
+    font-size:14px;
+  }
+
+  .status-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--night-2);
+    border:1px solid var(--line);
+    padding:10px 18px;
+    border-radius:999px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:15px;
+    min-height:20px;
+  }
+  .status-icon{
+    width:16px;
+    height:16px;
+    flex-shrink:0;
+  }
+
+  .scoreboard{
+    display:flex;
+    width:100%;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .score-card{
+    flex:1;
+    background:var(--night-2);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:12px 10px;
+    text-align:center;
+  }
+  .score-card .label{
+    font-size:11px;
+    color:var(--ink-dim);
+    margin-bottom:4px;
+  }
+  .score-card .value{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:22px;
+    font-weight:600;
+  }
+  .score-card.x .value{color:var(--gold);}
+  .score-card.o .value{color:var(--blue);}
+
+  .board-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+  }
+
+  .board{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    gap:10px;
+  }
+
+  .cell{
+    background:var(--night-2);
+    border:1px solid var(--line);
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:border-color .2s, background .2s, transform .1s;
+    position:relative;
+    padding:0;
+  }
+  .cell:hover:not(.filled){
+    border-color:#454f88;
+    background:#171f47;
+  }
+  .cell:active:not(.filled){
+    transform:scale(.97);
+  }
+  .cell.filled{
+    cursor:default;
+  }
+  .cell svg{
+    width:56%;
+    height:56%;
+    overflow:visible;
+  }
+
+  .win-overlay{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:visible;
+  }
+  .win-line{
+    stroke:url(#winGradient);
+    stroke-width:5;
+    stroke-linecap:round;
+    filter:drop-shadow(0 0 8px rgba(255,255,255,.6));
+  }
+
+  .controls{
+    display:flex;
+    gap:10px;
+    width:100%;
+  }
+  button.action{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:14px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    padding:12px 14px;
+    cursor:pointer;
+    background:var(--night-2);
+    color:var(--ink);
+    flex:1;
+    transition:transform .1s, background .2s, border-color .2s;
+  }
+  button.action:hover{
+    border-color:#454f88;
+    background:#171f47;
+  }
+  button.action:active{
+    transform:scale(.97);
+  }
+  button.action.primary{
+    background:linear-gradient(90deg, var(--gold), var(--blue));
+    color:#0B1026;
+    border:none;
+  }
+  button.action:focus-visible{
+    outline:2px solid var(--blue);
+    outline-offset:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .star{animation:none; opacity:.4;}
+    * {animation-duration:.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<div id="stars"></div>
+
+<div class="app">
+  <header>
+    <h1>Jogo da Velha</h1>
+    <p class="subtitle">Estrela contra lua — três em linha vence o céu</p>
+  </header>
+
+  <div class="status-row" id="statusRow" aria-live="polite">
+    <span id="statusText">Vez da estrela</span>
+  </div>
+
+  <div class="scoreboard">
+    <div class="score-card x">
+      <div class="label">Estrela</div>
+      <div class="value" id="scoreX">0</div>
+    </div>
+    <div class="score-card">
+      <div class="label">Empates</div>
+      <div class="value" id="scoreD">0</div>
+    </div>
+    <div class="score-card o">
+      <div class="label">Lua</div>
+      <div class="value" id="scoreO">0</div>
+    </div>
+  </div>
+
+  <div class="board-wrap">
+    <div class="board" id="board"></div>
+    <svg class="win-overlay" id="winOverlay">
+      <defs>
+        <linearGradient id="winGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#F2C14E"/>
+          <stop offset="100%" stop-color="#7EC8E3"/>
+        </linearGradient>
+      </defs>
+      <line class="win-line" id="winLine" x1="0" y1="0" x2="0" y2="0" stroke-dasharray="0" stroke-dashoffset="0" style="opacity:0"/>
+    </svg>
+  </div>
+
+  <div class="controls">
+    <button class="action primary" id="newRoundBtn">Nova rodada</button>
+    <button class="action" id="resetScoreBtn">Zerar placar</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  // background stars
+  const starsContainer = document.getElementById('stars');
+  const STAR_COUNT = 60;
+  for(let i=0;i<STAR_COUNT;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random()*100 + 'vw';
+    s.style.top = Math.random()*100 + 'vh';
+    s.style.animationDelay = (Math.random()*3.5) + 's';
+    const size = 1 + Math.random()*2;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    starsContainer.appendChild(s);
+  }
+
+  const boardEl = document.getElementById('board');
+  const statusText = document.getElementById('statusText');
+  const winOverlay = document.getElementById('winOverlay');
+  const winLine = document.getElementById('winLine');
+  const scoreXEl = document.getElementById('scoreX');
+  const scoreOEl = document.getElementById('scoreO');
+  const scoreDEl = document.getElementById('scoreD');
+
+  const WIN_COMBOS = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  let cells = Array(9).fill(null);
+  let current = 'X';
+  let gameOver = false;
+  let scores = {X:0, O:0, D:0};
+
+  const XMARK = `
+    <svg viewBox="0 0 100 100" fill="none">
+      <g stroke="${'#F2C14E'}" stroke-width="9" stroke-linecap="round">
+        <line x1="18" y1="18" x2="82" y2="82"/>
+        <line x1="82" y1="18" x2="18" y2="82"/>
+      </g>
+      <circle cx="50" cy="50" r="6" fill="#F2C14E" opacity=".9"/>
+    </svg>`;
+
+  const OMARK = `
+    <svg viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="30" stroke="#7EC8E3" stroke-width="9"/>
+      <ellipse cx="50" cy="50" rx="42" ry="12" stroke="#7EC8E3" stroke-width="4" opacity=".55" transform="rotate(-18 50 50)"/>
+    </svg>`;
+
+  function buildBoard(){
+    boardEl.innerHTML = '';
+    cells.forEach((val, i)=>{
+      const btn = document.createElement('button');
+      btn.className = 'cell';
+      btn.setAttribute('data-i', i);
+      btn.setAttribute('aria-label', 'Casa ' + (i+1));
+      btn.addEventListener('click', ()=>handleMove(i));
+      boardEl.appendChild(btn);
+    });
+  }
+
+  function handleMove(i){
+    if(gameOver || cells[i]) return;
+    cells[i] = current;
+    renderCell(i);
+
+    const result = checkWinner();
+    if(result){
+      gameOver = true;
+      if(result.winner === 'draw'){
+        scores.D++;
+        statusText.textContent = 'Empate — o céu ficou equilibrado';
+      } else {
+        scores[result.winner]++;
+        statusText.textContent = (result.winner === 'X' ? 'A estrela venceu!' : 'A lua venceu!');
+        drawWinLine(result.combo);
+      }
+      updateScoreboard();
+      return;
+    }
+
+    current = current === 'X' ? 'O' : 'X';
+    updateStatus();
+  }
+
+  function renderCell(i){
+    const el = boardEl.querySelector(`[data-i="${i}"]`);
+    el.classList.add('filled');
+    el.innerHTML = cells[i] === 'X' ? XMARK : OMARK;
+    const svg = el.querySelector('svg');
+    svg.style.transform = 'scale(0.4)';
+    svg.style.opacity = '0';
+    svg.style.transition = 'transform .25s cubic-bezier(.2,1.4,.4,1), opacity .2s';
+    requestAnimationFrame(()=>{
+      svg.style.transform = 'scale(1)';
+      svg.style.opacity = '1';
+    });
+  }
+
+  function checkWinner(){
+    for(const combo of WIN_COMBOS){
+      const [a,b,c] = combo;
+      if(cells[a] && cells[a] === cells[b] && cells[a] === cells[c]){
+        return {winner: cells[a], combo};
+      }
+    }
+    if(cells.every(v=>v)) return {winner:'draw'};
+    return null;
+  }
+
+  function drawWinLine(combo){
+    const boardWrap = boardEl.parentElement;
+    const wrapRect = boardWrap.getBoundingClientRect();
+    winOverlay.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
+    winOverlay.setAttribute('width', wrapRect.width);
+    winOverlay.setAttribute('height', wrapRect.height);
+
+    const firstCell = boardEl.querySelector(`[data-i="${combo[0]}"]`).getBoundingClientRect();
+    const lastCell = boardEl.querySelector(`[data-i="${combo[2]}"]`).getBoundingClientRect();
+
+    const x1 = firstCell.left - wrapRect.left + firstCell.width/2;
+    const y1 = firstCell.top - wrapRect.top + firstCell.height/2;
+    const x2 = lastCell.left - wrapRect.left + lastCell.width/2;
+    const y2 = lastCell.top - wrapRect.top + lastCell.height/2;
+
+    winLine.setAttribute('x1', x1);
+    winLine.setAttribute('y1', y1);
+    winLine.setAttribute('x2', x2);
+    winLine.setAttribute('y2', y2);
+
+    const len = Math.hypot(x2-x1, y2-y1);
+    winLine.style.strokeDasharray = len;
+    winLine.style.strokeDashoffset = len;
+    winLine.style.opacity = '1';
+    winLine.style.transition = 'stroke-dashoffset .5s ease-out';
+    requestAnimationFrame(()=>{
+      winLine.style.strokeDashoffset = 0;
+    });
+  }
+
+  function updateStatus(){
+    statusText.textContent = current === 'X' ? 'Vez da estrela' : 'Vez da lua';
+  }
+
+  function updateScoreboard(){
+    scoreXEl.textContent = scores.X;
+    scoreOEl.textContent = scores.O;
+    scoreDEl.textContent = scores.D;
+  }
+
+  function newRound(){
+    cells = Array(9).fill(null);
+    current = 'X';
+    gameOver = false;
+    winLine.style.opacity = '0';
+    winLine.style.transition = 'none';
+    buildBoard();
+    updateStatus();
+  }
+
+  document.getElementById('newRoundBtn').addEventListener('click', newRound);
+  document.getElementById('resetScoreBtn').addEventListener('click', ()=>{
+    scores = {X:0, O:0, D:0};
+    updateScoreboard();
+    newRound();
+  });
+
+  buildBoard();
+  updateStatus();
+  updateScoreboard();
+})();
+</script>
+
+</body>
+</html>
