@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111318;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: white;
+        }
+
+        .calculator {
+            width: 311px;
+            height: 570px;
+            background: #202328;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .top {
+            height: 99px;
+            padding: 8px;
+            background: #1d2026;
+        }
+
+        .title-bar {
+            height: 43px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .menu {
+            font-size: 21px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .calculator-icon {
+            color: #ccc;
+            font-size: 18px;
+        }
+
+        .history {
+            margin-left: auto;
+            font-size: 23px;
+            color: #ddd;
+        }
+
+        .display {
+            height: 74px;
+            border: 2px solid #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 5px 10px;
+            font-size: 45px;
+            font-weight: 500;
+            overflow: hidden;
+        }
+
+        .memory {
+            height: 36px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            align-items: center;
+            text-align: center;
+            background: #20242a;
+        }
+
+        .memory button {
+            height: 100%;
+            border: none;
+            background: transparent;
+            color: #999;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .memory button:hover {
+            color: white;
+        }
+
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(6, 52px);
+            gap: 2px;
+            background: #1d2025;
+        }
+
+        button {
+            border: none;
+            border-radius: 3px;
+            background: #30343b;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        button:hover {
+            background: #3b4048;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .operator {
+            font-size: 20px;
+        }
+
+        /* IGUAL */
+        .equal {
+            background: #d38be2;
+            color: #211725;
+            font-size: 20px;
+        }
+
+        .equal:hover {
+            background: #df9aec;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+
+        <div class="top">
+
+            <div class="title-bar">
+                <div class="menu">☰</div>
+                <div class="title">Padrão</div>
+                <div class="calculator-icon">◫</div>
+                <div class="history">◔</div>
+            </div>
+
+            <div class="display" id="display">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="memory">
+
+            <button onclick="memoryClear()">MC</button>
+            <button onclick="memoryRecall()">MR</button>
+            <button onclick="memoryAdd()">M+</button>
+            <button onclick="memorySubtract()">M−</button>
+            <button onclick="memoryStore()">MS</button>
+            <button onclick="memoryClear()">M⌄</button>
+
+        </div>
+
+        <div class="buttons">
+
+            <button onclick="percent()">%</button>
+            <button onclick="clearEntry()">CE</button>
+            <button onclick="clearAll()">C</button>
+            <button onclick="backspace()">⌫</button>
+
+            <button onclick="reciprocal()">¹⁄ₓ</button>
+            <button onclick="square()">x²</button>
+            <button onclick="sqrt()">²√x</button>
+            <button class="operator" onclick="operatorChoose('÷')">÷</button>
+
+            <button onclick="number('7')">7</button>
+            <button onclick="number('8')">8</button>
+            <button onclick="number('9')">9</button>
+            <button class="operator" onclick="operatorChoose('×')">×</button>
+
+            <button onclick="number('4')">4</button>
+            <button onclick="number('5')">5</button>
+            <button onclick="number('6')">6</button>
+            <button class="operator" onclick="operatorChoose('−')">−</button>
+
+            <button onclick="number('1')">1</button>
+            <button onclick="number('2')">2</button>
+            <button onclick="number('3')">3</button>
+            <button class="operator" onclick="operatorChoose('+')">+</button>
+
+            <button onclick="changeSign()">+/−</button>
+            <button onclick="number('0')">0</button>
+            <button onclick="decimal()">,</button>
+            <button class="equal" onclick="calculate()">=</button>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let current = "0";
+        let previous = null;
+        let operator = null;
+        let waiting = false;
+
+        let memory = 0;
+
+        const display = document.getElementById("display");
+
+
+        function render() {
+            display.textContent = current.replace(".", ",");
+        }
+
+
+        function number(value) {
+
+            if (waiting) {
+                current = value;
+                waiting = false;
+            } 
+            else {
+                if (current === "0") {
+                    current = value;
+                } 
+                else {
+                    current += value;
+                }
+            }
+
+            render();
+        }
+
+
+        /* VÍRGULA */
+        function decimal() {
+
+            if (waiting) {
+                current = "0.";
+                waiting = false;
+            }
+
+            else if (!current.includes(".")) {
+                current += ".";
+            }
+
+            render();
+        }
+
+
+  
+        function operatorChoose(op) {
+
+            if (operator && !waiting) {
+                calculate();
+            }
+
+            previous = parseFloat(current);
+            operator = op;
+            waiting = true;
+        }
+
+
+
+        function calculate() {
+
+            if (operator === null || previous === null) {
+                return;
+            }
+
+            const a = previous;
+            const b = parseFloat(current);
+
+            let result;
+
+            switch (operator) {
+
+                case "+":
+                    result = a + b;
+                    break;
+
+                case "−":
+                    result = a - b;
+                    break;
+
+                case "×":
+                    result = a * b;
+                    break;
+
+                case "÷":
+
+                    if (b === 0) {
+                        current = "Erro";
+                        previous = null;
+                        operator = null;
+                        waiting = true;
+                        render();
+                        return;
+                    }
+
+                    result = a / b;
+                    break;
+            }
+
+            current = formatNumber(result);
+
+            previous = null;
+            operator = null;
+            waiting = true;
+
+            render();
+        }
+
+
+        function formatNumber(number) {
+
+            if (!Number.isFinite(number)) {
+                return "Erro";
+            }
+
+            const rounded =
+                Math.round((number + Number.EPSILON) * 1000000000000)
+                / 1000000000000;
+
+            return String(rounded);
+        }
+
+
+
+        function clearAll() {
+
+            current = "0";
+            previous = null;
+            operator = null;
+            waiting = false;
+
+            render();
+        }
+
+
+        /* CLEAR ENTRY */
+        function clearEntry() {
+
+            current = "0";
+
+            render();
+        }
+
+
+        /* APAGAR */
+        function backspace() {
+
+            if (waiting || current === "Erro") {
+                return;
+            }
+
+            if (current.length > 1) {
+                current = current.slice(0, -1);
+            } 
+            else {
+                current = "0";
+            }
+
+            if (current === "-") {
+                current = "0";
+            }
+
+            render();
+        }
+
+
+
+        function changeSign() {
+
+            if (current === "0" || current === "Erro") {
+                return;
+            }
+
+            if (current.startsWith("-")) {
+                current = current.slice(1);
+            } 
+            else {
+                current = "-" + current;
+            }
+
+            render();
+        }
+
+        function percent() {
+
+            const value = parseFloat(current);
+
+            current = formatNumber(value / 100);
+
+            render();
+        }
+
+
+
+        function reciprocal() {
+
+            const value = parseFloat(current);
+
+            if (value === 0) {
+                current = "Erro";
+            } 
+            else {
+                current = formatNumber(1 / value);
+            }
+
+            render();
+        }
+
+        function square() {
+
+            const value = parseFloat(current);
+
+            current = formatNumber(value * value);
+
+            render();
+        }
+
+        function sqrt() {
+
+            const value = parseFloat(current);
+
+            if (value < 0) {
+                current = "Erro";
+            } 
+            else {
+                current = formatNumber(Math.sqrt(value));
+            }
+
+            render();
+        }
+
+
+
+        function memoryClear() {
+            memory = 0;
+        }
+
+
+        function memoryRecall() {
+
+            current = formatNumber(memory);
+
+            waiting = false;
+
+            render();
+        }
+
+
+        function memoryStore() {
+
+            memory = parseFloat(current) || 0;
+        }
+
+
+        function memoryAdd() {
+
+            memory += parseFloat(current) || 0;
+        }
+
+
+        function memorySubtract() {
+
+            memory -= parseFloat(current) || 0;
+        }
+
+
+
+
+        document.addEventListener("keydown", function(event) {
+
+            if (/^[0-9]$/.test(event.key)) {
+
+                number(event.key);
+
+            }
+
+            else if (event.key === "," || event.key === ".") {
+
+                decimal();
+
+            }
+
+            else if (event.key === "+") {
+
+                operatorChoose("+");
+
+            }
+
+            else if (event.key === "-") {
+
+                operatorChoose("−");
+
+            }
+
+            else if (event.key === "*") {
+
+                operatorChoose("×");
+
+            }
+
+            else if (event.key === "/") {
+
+                operatorChoose("÷");
+
+            }
+
+            else if (event.key === "Enter" || event.key === "=") {
+
+                calculate();
+
+            }
+
+            else if (event.key === "Backspace") {
+
+                backspace();
+
+            }
+
+            else if (event.key === "Escape") {
+
+                clearAll();
+
+            }
+
+            else if (event.key === "%") {
+
+                percent();
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
