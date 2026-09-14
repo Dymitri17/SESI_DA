@@ -48,28 +48,26 @@ button {
     font-weight: bold;
 }
 .casa {
-    width: 80px;
-    height: 80px;
-    font-size: 0; /* esconde texto */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    border: 2px solid #333;
+  width:70px;
+  height:70px;
+  font-size:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-
+/* X */
 .casa.x::before {
-    content: "X";
-    font-size: 40px;
-    color: blue;
+  content:"X";
+  font-size:30px;
+  color:blue;
 }
 
-
+/* O (círculo) */
 .casa.o::before {
-    content: "";
-    width: 40px;
-    height: 40px;
-    border: 5px solid red;
-    border-radius: 50%;
+  content:"";
+  width:30px;
+  height:30px;
+  border:4px solid red;
+  border-radius:50%;
 }

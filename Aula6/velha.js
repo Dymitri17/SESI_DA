@@ -1,70 +1,97 @@
-let jogador1 = "";
-let jogador2 = "";
-let jogadorAtual = "X";
-let jogo = ["", "", "", "", "", "", "", "", ""];
+let j1 = "", j2 = "";
+let vez = "X";
+let jogo = ["","","","","","","","",""];
+let jogadas = 0;
+let ativo = true;
 
-function iniciarJogo() {
-    jogador1 = document.getElementById("jogador1").value;
-    jogador2 = document.getElementById("jogador2").value;
+let pontos1 = 0;
+let pontos2 = 0;
 
-    if (jogador1 === "" || jogador2 === "") {
-        alert("Digite o nome dos dois jogadores!");
-        return;
-    }
+function iniciar() {
+  j1 = document.getElementById("j1").value;
+  j2 = document.getElementById("j2").value;
 
-    jogo = ["", "", "", "", "", "", "", "", ""];
-    jogadorAtual = "X";
+  jogo = ["","","","","","","","",""];
+  vez = "X";
+  jogadas = 0;
+  ativo = true;
 
-    let casas = document.querySelectorAll(".casa");
-    casas.forEach(casa => {
-    casa.innerHTML = "";
-    casa.classList.remove("x", "o");
-});
-    document.getElementById("mensagem").innerText =
-        "Vez de " + jogador1 + " (X)";
+  document.querySelectorAll(".casa").forEach(c => {
+    c.classList.remove("x","o");
+  });
+
+  atualizarPlacar(); // 🔥 mostra o placar
+
+  document.getElementById("msg").innerText = "Vez de " + j1;
+  document.getElementById("info").innerText = "Jogadas: 0";
 }
 
-function jogar(pos) {
-    if (jogo[pos] !== "") return;
+function jogar(p) {
+  if (!ativo || jogo[p] !== "") return;
 
-    jogo[pos] = jogadorAtual;
-let casa = document.querySelectorAll(".casa")[pos];
+  jogo[p] = vez;
+  jogadas++;
 
-if (jogadorAtual === "X") {
-    casa.classList.add("x");
-} else {
-    casa.classList.add("o");
-}
+  let casa = document.querySelectorAll(".casa")[p];
+  casa.classList.add(vez === "X" ? "x" : "o");
 
-    if (verificarVencedor()) {
-        let vencedor = jogadorAtual === "X" ? jogador1 : jogador2;
-        document.getElementById("mensagem").innerText =
-            vencedor + " venceu!";
-        return;
+  // ✅ VERIFICA SE GANHOU
+  if (ganhou()) {
+
+    // 🔥 SOMA PONTO
+    if (vez === "X") {
+      pontos1++;
+    } else {
+      pontos2++;
     }
 
-    if (!jogo.includes("")) {
-        document.getElementById("mensagem").innerText = "Empate!";
-        return;
-    }
+    document.getElementById("msg").innerText =
+      (vez === "X" ? j1 : j2) + " venceu!";
 
-    jogadorAtual = jogadorAtual === "X" ? "O" : "X";
+    atualizarPlacar(); // 🔥 ATUALIZA PLACAR
 
-    document.getElementById("mensagem").innerText =
-        "Vez de " + (jogadorAtual === "X" ? jogador1 : jogador2) +
-        " (" + jogadorAtual + ")";
+    ativo = false;
+    return;
+  }
+
+  // empate
+  if (jogadas === 9) {
+    document.getElementById("msg").innerText = "Empate!";
+    ativo = false;
+    return;
+  }
+
+  // troca jogador
+  vez = (vez === "X") ? "O" : "X";
+
+  document.getElementById("msg").innerText =
+    "Vez de " + (vez === "X" ? j1 : j2);
+
+  document.getElementById("info").innerText =
+    "Jogadas: " + jogadas;
 }
 
-function verificarVencedor() {
-    const combinacoes = [
-        [0,1,2],[3,4,5],[6,7,8],
-        [0,3,6],[1,4,7],[2,5,8],
-        [0,4,8],[2,4,6]
-    ];
+function atualizarPlacar() {
+  document.getElementById("placar").innerText =
+    "Placar: " + j1 + " (" + pontos1 + ") x " + j2 + " (" + pontos2 + ")";
+}
 
-    return combinacoes.some(c =>
-        jogo[c[0]] !== "" &&
-        jogo[c[0]] === jogo[c[1]] &&
-        jogo[c[1]] === jogo[c[2]]
-    );
+function limparPlacar() {
+  pontos1 = 0;
+  pontos2 = 0;
+  atualizarPlacar();
+}
+
+function ganhou() {
+  let c = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  return c.some(a =>
+    jogo[a[0]] !== "" &&
+    jogo[a[0]] === jogo[a[1]] &&
+    jogo[a[1]] === jogo[a[2]]
+  );
 }
