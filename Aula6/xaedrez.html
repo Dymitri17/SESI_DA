@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Xadrez Simples</title>
+
+<style>
+body { text-align:center; font-family:Arial; }
+
+#tabuleiro {
+  display:grid;
+  grid-template-columns:repeat(8,50px);
+  justify-content:center;
+  margin-top:20px;
+}
+
+.casa {
+  width:50px;
+  height:50px;
+  line-height:50px;
+  font-size:25px;
+  cursor:pointer;
+}
+
+.branco { background:#eee; }
+.preto { background:#444; color:white; }
+</style>
+</head>
+
+<body>
+
+<h2>Xadrez</h2>
+
+<input id="j1" placeholder="Jogador 1">
+<input id="j2" placeholder="Jogador 2">
+
+<br><br>
+
+<label><input type="checkbox" id="tempo"> Com tempo</label>
+<label><input type="checkbox" id="robo"> Jogar contra robô</label>
+
+<br><br>
+
+<button onclick="iniciar()">Iniciar</button>
+
+<p id="msg"></p>
+<p id="tempoTxt"></p>
+
+<div id="tabuleiro"></div>
+
+<script>
+let j1="", j2="";
+let contraRobo=false;
+let usarTempo=false;
+
+let tempo = 30;
+let timer;
+
+let tabuleiro;
+let selecionado=null;
+let vez="branco";
+
+function iniciar(){
+  j1 = document.getElementById("j1").value || "Jogador 1";
+  j2 = document.getElementById("j2").value || "Jogador 2";
+
+  contraRobo = document.getElementById("robo").checked;
+  usarTempo = document.getElementById("tempo").checked;
+
+  tabuleiro = [
+  ["♜","♞","♝","♛","♚","♝","♞","♜"],
+  ["♟","♟","♟","♟","♟","♟","♟","♟"],
+  ["","","","","","","",""],
+  ["","","","","","","",""],
+  ["","","","","","","",""],
+  ["","","","","","","",""],
+  ["♙","♙","♙","♙","♙","♙","♙","♙"],
+  ["♖","♘","♗","♕","♔","♗","♘","♖"]
+  ];
+
+  vez="branco";
+  selecionado=null;
+
+  document.getElementById("msg").innerText="Vez de "+j1;
+
+  if(usarTempo){
+    tempo = 30;
+    iniciarTempo();
+  } else {
+    document.getElementById("tempoTxt").innerText="";
+    clearInterval(timer);
+  }
+
+  desenhar();
+}
+
+function desenhar(){
+  let t=document.getElementById("tabuleiro");
+  t.innerHTML="";
+
+  for(let i=0;i<8;i++){
+    for(let j=0;j<8;j++){
+
+      let c=document.createElement("div");
+      c.className="casa "+((i+j)%2==0?"branco":"preto");
+      c.innerText=tabuleiro[i][j];
+
+      c.onclick=function(){clicar(i,j);};
+
+      t.appendChild(c);
+    }
+  }
+}
+
+function clicar(i,j){
+  if(selecionado){
+    tabuleiro[i][j]=tabuleiro[selecionado.i][selecionado.j];
+    tabuleiro[selecionado.i][selecionado.j]="";
+    selecionado=null;
+
+    trocarTurno();
+    desenhar();
+
+    if(contraRobo && vez=="preto"){
+      setTimeout(jogadaRobo,500);
+    }
+
+  } else if(tabuleiro[i][j]!=""){
+    selecionado={i,j};
+  }
+}
+
+function trocarTurno(){
+  vez = (vez=="branco") ? "preto" : "branco";
+  tempo = 30;
+
+  document.getElementById("msg").innerText =
+    "Vez de " + (vez=="branco"?j1:j2);
+}
+
+function iniciarTempo(){
+  clearInterval(timer);
+  timer = setInterval(()=>{
+    tempo--;
+    document.getElementById("tempoTxt").innerText =
+      "Tempo: "+tempo+"s";
+
+    if(tempo<=0){
+      trocarTurno();
+    }
+  },1000);
+}
+
+function jogadaRobo(){
+  let movs=[];
+
+  for(let i=0;i<8;i++){
+    for(let j=0;j<8;j++){
+      if(tabuleiro[i][j]!=""){
+        movs.push({i,j});
+      }
+    }
+  }
+
+  let origem = movs[Math.floor(Math.random()*movs.length)];
+  let destino = {
+    i: Math.floor(Math.random()*8),
+    j: Math.floor(Math.random()*8)
+  };
+
+  tabuleiro[destino.i][destino.j]=tabuleiro[origem.i][origem.j];
+  tabuleiro[origem.i][origem.j]="";
+
+  trocarTurno();
+  desenhar();
+}
+</script>
+
+</body>
+</html>
