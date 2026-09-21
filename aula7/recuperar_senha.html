@@ -2,19 +2,21 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Recuperar Senha</title>
+  <title>Login</title>
 </head>
 <body>
 
-  <h2>Recuperar Senha</h2>
+  <h2>Login</h2>
 
-  <input id="usuarioRec" type="text" placeholder="Usuário"><br><br>
+  <input id="usuario" type="text" placeholder="Usuário"><br><br>
+  <input id="senha" type="password" placeholder="Senha"><br><br>
 
-  <button onclick="recuperar()">Recuperar</button>
+  <button onclick="login()">Entrar</button>
 
-  <p id="resposta"></p>
-
-  <p><a href="login.html">Voltar</a></p>
+  <p>
+    <a href="cadastro.html">Cadastrar</a> |
+    <a href="recuperar_senha.html">Esqueci a senha</a>
+  </p>
 
   <script src="script.js"></script>
 </body>
