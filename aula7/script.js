@@ -1,16 +1,14 @@
-function Login(){
+function login(){
 
     const local_nome = localStorage.getItem("nome");
     const local_senha = localStorage.getItem("senha")
 
-    const nome  = document.getElementById("nome");
-    const senha = document.getElementById("senha");
+    const nome  = document.getElementById("usuario").value;
+    const senha = document.getElementById("senha").value;
 
-    if(nome == local_nome){
-        aler("Login realizado com sucesso");
+    if(nome == local_nome && senha == local_senha){
+        alert("Login realizado com sucesso");
     }else{
         alert("Nome inválido");
     }
-
-    alert(nome.value + " " + senha.value);
 }
