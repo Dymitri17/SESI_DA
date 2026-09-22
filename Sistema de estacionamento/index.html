@@ -3,38 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estacionamento</title>
+  <title>Sistema de Estacionamento - Dymitri Ribeiro</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
   <div class="container">
-    <h1>🚗 Estacionamento</h1>
+    <header class="cabecalho">
+      <div>
+        <h1>Estacionamento - Dymitri Ribeiro</h1>
+        <p class="subtitulo">Gestão Avançada de Pátio e Tarifas</p>
+      </div>
+      <div id="relogio" class="relogio"></div>
+    </header>
 
-    <div class="form">
-      <input type="text" id="placa" placeholder="Placa do veículo">
-      <input type="text" id="nome" placeholder="Nome do cliente">
-      <button id="btnAdicionar">Entrar veículo</button>
-    </div>
+    <section class="painel-card">
+      <h2>Registrar Entrada</h2>
+      <div class="form-grid">
+        <div class="campo-input">
+          <label for="placa">Placa do Veículo</label>
+          <input type="text" id="placa" placeholder="EX: ABC1234" maxlength="8">
+        </div>
 
-    <div class="info">
-      <p id="vagas">Vagas: 0 / 12</p>
-    </div>
+        <div class="campo-input">
+          <label for="modelo">Modelo / Cor</label>
+          <input type="text" id="modelo" placeholder="EX: Gol Azul">
+        </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Placa</th>
-          <th>Nome</th>
-          <th>Entrada</th>
-          <th>Tempo</th>
-          <th>Ação</th>
-        </tr>
-      </thead>
-      <tbody id="lista"></tbody>
-    </table>
+        <button class="btn btn-sucesso" onclick="adicionarCarro()">
+          ➕ Registrar Entrada
+        </button>
+      </div>
+    </section>
 
-    <div id="mensagem" class="mensagem"></div>
+    <section class="resumo-estatisticas">
+      <div class="card-stat">
+        <span class="label">Vagas Ocupadas</span>
+        <span id="ocupadas" class="valor valor-ocupadas">0</span>
+      </div>
+      <div class="card-stat">
+        <span class="label">Vagas Livres</span>
+        <span id="livres" class="valor valor-livres">12</span>
+      </div>
+      <div class="card-stat">
+        <span class="label">Total de Vagas</span>
+        <span class="valor">12</span>
+      </div>
+      <div class="card-stat">
+        <span class="label">Tarifa Básica</span>
+        <span class="valor valor-tarifa">R$ 4,00 / hora</span>
+      </div>
+    </section>
+
+    <section class="painel-card seccao-grafico">
+      <div class="historico-topo">
+        <h2>Distribuição de Horas por Vaga</h2>
+        <div class="opcoes-grafico">
+          <button class="btn btn-opcao active" id="btn-horas" onclick="alternarModoGrafico('horas')">Horas Permanência</button>
+          <button class="btn btn-opcao" id="btn-valor" onclick="alternarModoGrafico('valor')">Valor Acumulado (R$)</button>
+        </div>
+      </div>
+      <div class="container-grafico">
+        <canvas id="graficoPizza"></canvas>
+      </div>
+    </section>
+
+    <section class="painel-card barra-pesquisa">
+      <input type="text" id="busca" placeholder="🔍 Buscar veículo por placa..." oninput="renderizar()">
+    </section>
+
+    <main id="patio" class="grid-patio"></main>
+
+    <section class="painel-card seccao-historico">
+      <div class="historico-topo">
+        <h2>Histórico de Movimentações</h2>
+        <button class="btn btn-perigo-suave" onclick="limparHistorico()">Limpar Histórico</button>
+      </div>
+
+      <div class="tabela-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Modelo</th>
+              <th>Entrada</th>
+              <th>Saída</th>
+              <th>Permanência</th>
+              <th>Valor Pago</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-historico">
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
 
   <script src="script.js"></script>
