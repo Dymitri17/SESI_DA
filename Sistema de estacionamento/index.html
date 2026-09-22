@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estacionamento</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>🚗 Estacionamento</h1>
+
+    <div class="form">
+      <input type="text" id="placa" placeholder="Placa do veículo">
+      <input type="text" id="nome" placeholder="Nome do cliente">
+      <button id="btnAdicionar">Entrar veículo</button>
+    </div>
+
+    <div class="info">
+      <p id="vagas">Vagas: 0 / 12</p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Placa</th>
+          <th>Nome</th>
+          <th>Entrada</th>
+          <th>Tempo</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody id="lista"></tbody>
+    </table>
+
+    <div id="mensagem" class="mensagem"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
