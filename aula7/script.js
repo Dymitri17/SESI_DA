@@ -1,79 +1,86 @@
-function cadastrar(){
-  let usuario = document.getElementById("novoUsuario").value;
-  let senha = document.getElementById("novaSenha").value;
+function cadastro() {
 
-  if(usuario === "" || senha === ""){
-    alert("Preencha tudo!");
-    return;
-  }
+    let nome = document.getElementById("nome").value;
+    let usuario = document.getElementById("usuario").value;
+    let senha = document.getElementById("senha").value;
+    let palavra = document.getElementById("palavra").value;
 
-  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-  for(let i = 0; i < usuarios.length; i++){
-    if(usuarios[i].usuario === usuario){
-      alert("Usuário já existe!");
-      return;
+    if(nome === "" || usuario === "" || senha === "" || palavra === ""){
+        alert("Preencha todos os campos!");
+        return;
     }
-  }
 
-  usuarios.push({usuario, senha});
-  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+    localStorage.setItem("NOME", nome);
+    localStorage.setItem("USUARIO", usuario);
+    localStorage.setItem("SENHA", senha);
+    localStorage.setItem("PALAVRA", palavra);
 
-  localStorage.setItem("nome", usuario);
-  localStorage.setItem("senha", senha);
+    alert("Cadastro realizado!");
 
-  alert("Cadastrado com sucesso!");
+    window.location.href = "index.html";
 }
 
 
+function recuperar_senha() {
+
+
+
+    let nome = document.getElementById("nomeRec").value
+    ;
+    let palavra = document.getElementById("palavraRec")
+    .value;
+
+
+    let nomeSalvo = localStorage.getItem("NOME");
+
+    let palavraSalva = localStorage.getItem("PALAVRA");
+
+    let senhaSalva = localStorage.getItem("SENHA");
+
+
+
+    let tentativas = localStorage.getItem("tentativas")
+     || 0;
+    tentativas = parseInt(tentativas);
+
+
+    if(tentativas >= 3){
+        alert("Bloqueado!");
+        document.getElementById("nomeRec").disabled = true;
+        document.getElementById("palavraRec").disabled = true;
+        return;
+    }
+
+    if(nome === nomeSalvo && palavra === palavraSalva){
+        alert("Senha: " + senhaSalva);
+        localStorage.setItem("tentativas", 0);
+    }else{
+        tentativas++;
+        localStorage.setItem("tentativas", tentativas);
+
+        alert("Erro " + tentativas + "/3");
+
+        document.getElementById("nomeRec").value = "";
+        document.getElementById("palavraRec").value = "";
+
+        if(tentativas >= 3){
+            alert("Bloqueado!");
+            document.getElementById("nomeRec").disabled = true;
+            document.getElementById("palavraRec").disabled = true;
+        }
+    }
+}
 function login(){ 
  
-    const local_nome = localStorage.getItem("nome"); 
-    const local_senha = localStorage.getItem("senha"); 
+    const local_usuario = localStorage.getItem("USUARIO"); 
+    const local_senha = localStorage.getItem("SENHA"); 
  
-    const nome  = document.getElementById("usuario").value; 
+    const usuario  = document.getElementById("usuario").value; 
     const senha = document.getElementById("senha").value; 
  
-    if(nome == local_nome && senha == local_senha){ 
+    if(usuario == local_usuario && senha == local_senha){ 
         alert("Login realizado com sucesso"); 
-        return;
-    }
-
-    let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-    for(let i = 0; i < usuarios.length; i++){
-      if(nome == usuarios[i].usuario && senha == usuarios[i].senha){
-        alert("Login realizado com sucesso");
-        return;
-      }
-    }
-
-    alert("Nome inválido"); 
-} 
-
-
-function recuperar(){
-  let nome = document.getElementById("usuarioRec").value;
-
-  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-  for(let i = 0; i < usuarios.length; i++){
-    if(nome == usuarios[i].usuario){
-      document.getElementById("resposta").innerText =
-        "Senha: " + usuarios[i].senha;
-      return;
-    }
-  }
-
-  let local_nome = localStorage.getItem("nome");
-  let local_senha = localStorage.getItem("senha");
-
-  if(nome == local_nome){
-    document.getElementById("resposta").innerText =
-      "Senha: " + local_senha;
-    return;
-  }
-
-  document.getElementById("resposta").innerText =
-    "Usuário não encontrado!";
+    }else{ 
+        alert("Usuário ou senha inválidos"); 
+    } 
 }
