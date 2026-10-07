@@ -882,10 +882,10 @@ function tick() {
 
   /* — feathers: fly forward on scroll down, backward on scroll up — */
   const fw = featherCanvas.width, fh = featherCanvas.height;
-  const intensity = clamp((scrubProgress - 0.70) / 0.14) * (0.45 + scrollVel * 0.55);
+  const intensity = clamp((scrubProgress - 0.1) / 0.1) * (0.1 + scrollVel * 0.1);
   fCtx.clearRect(0, 0, fw, fh);
   if (intensity > 0.01) {
-    const speed = (0.0009 + scrollVel * 0.006) * scrollDir;
+    const speed = (0.0001 + scrollVel * 0.001) * scrollDir;
     for (const f of feathers) {
       f.x += f.vx * speed;
       f.y += Math.sin(f.sway) * 0.0006 + f.vx * speed * 0.18;
@@ -900,8 +900,8 @@ function tick() {
   }
 
   /* — Act II: gaze follows the pointer — */
-  ex = lerp(ex, mx, 0.075);
-  ey = lerp(ey, my, 0.075);
+  ex = lerp(ex, mx, 0.01);
+  ey = lerp(ey, my, 0.01);
 
   const eyeRect = eyesSection.getBoundingClientRect();
   const eyeVisible = eyeRect.top < window.innerHeight && eyeRect.bottom > 0;
